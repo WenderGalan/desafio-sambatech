@@ -11,6 +11,7 @@
     <groupId>wendergalan.github.io</groupId>
     <artifactId>desafio-sambatech</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>desafio-sambatech</name>
     <description>Desafio Técnico do processo seletivo da Samba Tech</description>
 
