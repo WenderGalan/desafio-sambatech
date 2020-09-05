@@ -1,0 +1,613 @@
+{
+  "swagger":"2.0",
+  "info":{
+    "description":"Documentação da API de acesso aos endpoints da aplicação.",
+    "version":"1.0-SNAPSHOT",
+    "title":"DESAFIO SAMBA TECH API",
+    "contact":{
+      "name":"Wender Galan",
+      "url":"https://wendergalan.github.io",
+      "email":"wendergalan2014@hotmail.com"
+    },
+    "license":{
+      "name":"Apache License Version 2.0",
+      "url":"https://opensource.org/licenses/Apache-2.0"
+    }
+  },
+  "host":"localhost:8080",
+  "basePath":"/",
+  "tags":[
+    {
+      "name":"home-controller",
+      "description":"Home Controller"
+    },
+    {
+      "name":"media-controller",
+      "description":"Media Controller"
+    }
+  ],
+  "paths":{
+    "/":{
+      "get":{
+        "tags":[
+          "home-controller"
+        ],
+        "summary":"home",
+        "operationId":"homeUsingGET",
+        "produces":[
+          "*/*"
+        ],
+        "responses":{
+          "200":{
+            "description":"OK",
+            "schema":{
+              "$ref":"#/definitions/ModelAndView"
+            }
+          },
+          "401":{
+            "description":"Unauthorized"
+          },
+          "403":{
+            "description":"Forbidden"
+          },
+          "404":{
+            "description":"Not Found"
+          }
+        },
+        "deprecated":false
+      }
+    },
+    "/medias":{
+      "get":{
+        "tags":[
+          "media-controller"
+        ],
+        "summary":"Busca todas as mídias.",
+        "operationId":"findAllMediasUsingGET",
+        "produces":[
+          "*/*"
+        ],
+        "parameters":[
+          {
+            "name":"allMedias",
+            "in":"query",
+            "description":"allMedias",
+            "required":true,
+            "type":"boolean"
+          },
+          {
+            "name":"offset",
+            "in":"query",
+            "required":false,
+            "type":"integer",
+            "format":"int64"
+          },
+          {
+            "name":"pageNumber",
+            "in":"query",
+            "required":false,
+            "type":"integer",
+            "format":"int32"
+          },
+          {
+            "name":"pageSize",
+            "in":"query",
+            "required":false,
+            "type":"integer",
+            "format":"int32"
+          },
+          {
+            "name":"paged",
+            "in":"query",
+            "required":false,
+            "type":"boolean"
+          },
+          {
+            "name":"sort.sorted",
+            "in":"query",
+            "required":false,
+            "type":"boolean"
+          },
+          {
+            "name":"sort.unsorted",
+            "in":"query",
+            "required":false,
+            "type":"boolean"
+          },
+          {
+            "name":"unpaged",
+            "in":"query",
+            "required":false,
+            "type":"boolean"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Success",
+            "schema":{
+              "$ref":"#/definitions/Media"
+            }
+          },
+          "401":{
+            "description":"Unauthorized"
+          },
+          "403":{
+            "description":"Forbidden"
+          },
+          "404":{
+            "description":"Not Found"
+          }
+        },
+        "deprecated":false
+      },
+      "post":{
+        "tags":[
+          "media-controller"
+        ],
+        "summary":"Cria uma mídia.",
+        "operationId":"saveUsingPOST",
+        "consumes":[
+          "multipart/form-data"
+        ],
+        "produces":[
+          "*/*"
+        ],
+        "parameters":[
+          {
+            "name":"file",
+            "in":"formData",
+            "description":"file",
+            "required":true,
+            "type":"file"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"OK",
+            "schema":{
+              "$ref":"#/definitions/ResponseEntity"
+            }
+          },
+          "201":{
+            "description":"Created",
+            "schema":{
+              "$ref":"#/definitions/ResponseEntity"
+            }
+          },
+          "400":{
+            "description":"Bad Request"
+          },
+          "401":{
+            "description":"Unauthorized"
+          },
+          "403":{
+            "description":"Forbidden"
+          },
+          "404":{
+            "description":"Not Found"
+          }
+        },
+        "deprecated":false
+      }
+    },
+    "/medias/{id}":{
+      "get":{
+        "tags":[
+          "media-controller"
+        ],
+        "summary":"Busca a mídia por ID.",
+        "operationId":"buscarPorIdUsingGET",
+        "produces":[
+          "*/*"
+        ],
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "description":"id",
+            "required":true,
+            "type":"integer",
+            "format":"int32"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"OK",
+            "schema":{
+              "$ref":"#/definitions/ResponseEntity"
+            }
+          },
+          "204":{
+            "description":"No Content",
+            "schema":{
+              "$ref":"#/definitions/ResponseEntity"
+            }
+          },
+          "401":{
+            "description":"Unauthorized"
+          },
+          "403":{
+            "description":"Forbidden"
+          },
+          "404":{
+            "description":"Not Found"
+          }
+        },
+        "deprecated":false
+      },
+      "put":{
+        "tags":[
+          "media-controller"
+        ],
+        "summary":"Altera um mídia.",
+        "operationId":"updateUsingPUT",
+        "consumes":[
+          "multipart/form-data"
+        ],
+        "produces":[
+          "*/*"
+        ],
+        "parameters":[
+          {
+            "name":"file",
+            "in":"formData",
+            "description":"file",
+            "required":true,
+            "type":"file"
+          },
+          {
+            "name":"id",
+            "in":"path",
+            "description":"id",
+            "required":true,
+            "type":"integer",
+            "format":"int32"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Success",
+            "schema":{
+              "$ref":"#/definitions/ResponseEntity"
+            }
+          },
+          "201":{
+            "description":"Created"
+          },
+          "401":{
+            "description":"Unauthorized"
+          },
+          "403":{
+            "description":"Forbidden"
+          },
+          "404":{
+            "description":"Not Found"
+          }
+        },
+        "deprecated":false
+      },
+      "delete":{
+        "tags":[
+          "media-controller"
+        ],
+        "summary":"Deleta a mídia pelo ID.",
+        "operationId":"deleteByIdUsingDELETE",
+        "produces":[
+          "*/*"
+        ],
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "description":"id",
+            "required":true,
+            "type":"integer",
+            "format":"int32"
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"OK",
+            "schema":{
+              "$ref":"#/definitions/ResponseEntity"
+            }
+          },
+          "204":{
+            "description":"No Content",
+            "schema":{
+              "$ref":"#/definitions/ResponseEntity"
+            }
+          },
+          "401":{
+            "description":"Unauthorized"
+          },
+          "403":{
+            "description":"Forbidden"
+          },
+          "404":{
+            "description":"Not Found"
+          }
+        },
+        "deprecated":false
+      }
+    },
+    "/swagger":{
+      "get":{
+        "tags":[
+          "home-controller"
+        ],
+        "summary":"home",
+        "operationId":"homeUsingGET_1",
+        "produces":[
+          "*/*"
+        ],
+        "responses":{
+          "200":{
+            "description":"OK",
+            "schema":{
+              "$ref":"#/definitions/ModelAndView"
+            }
+          },
+          "401":{
+            "description":"Unauthorized"
+          },
+          "403":{
+            "description":"Forbidden"
+          },
+          "404":{
+            "description":"Not Found"
+          }
+        },
+        "deprecated":false
+      }
+    }
+  },
+  "definitions":{
+    "Iterable«Media»":{
+      "type":"object",
+      "title":"Iterable«Media»"
+    },
+    "Media":{
+      "type":"object",
+      "properties":{
+        "bitRate":{
+          "type":"integer",
+          "format":"int64"
+        },
+        "dataUpload":{
+          "type":"string",
+          "format":"date"
+        },
+        "deleted":{
+          "type":"boolean"
+        },
+        "duracao":{
+          "type":"integer",
+          "format":"int64"
+        },
+        "fileSize":{
+          "type":"integer",
+          "format":"int64"
+        },
+        "frameRate":{
+          "type":"number",
+          "format":"double"
+        },
+        "height":{
+          "type":"integer",
+          "format":"int32"
+        },
+        "id":{
+          "type":"integer",
+          "format":"int32"
+        },
+        "nome":{
+          "type":"string"
+        },
+        "url":{
+          "type":"string"
+        },
+        "width":{
+          "type":"integer",
+          "format":"int32"
+        }
+      },
+      "title":"Media"
+    },
+    "ModelAndView":{
+      "type":"object",
+      "properties":{
+        "empty":{
+          "type":"boolean"
+        },
+        "model":{
+          "type":"object"
+        },
+        "modelMap":{
+          "type":"object",
+          "additionalProperties":{
+            "type":"object"
+          }
+        },
+        "reference":{
+          "type":"boolean"
+        },
+        "status":{
+          "type":"string",
+          "enum":[
+            "100 CONTINUE",
+            "101 SWITCHING_PROTOCOLS",
+            "102 PROCESSING",
+            "103 CHECKPOINT",
+            "200 OK",
+            "201 CREATED",
+            "202 ACCEPTED",
+            "203 NON_AUTHORITATIVE_INFORMATION",
+            "204 NO_CONTENT",
+            "205 RESET_CONTENT",
+            "206 PARTIAL_CONTENT",
+            "207 MULTI_STATUS",
+            "208 ALREADY_REPORTED",
+            "226 IM_USED",
+            "300 MULTIPLE_CHOICES",
+            "301 MOVED_PERMANENTLY",
+            "302 FOUND",
+            "302 MOVED_TEMPORARILY",
+            "303 SEE_OTHER",
+            "304 NOT_MODIFIED",
+            "305 USE_PROXY",
+            "307 TEMPORARY_REDIRECT",
+            "308 PERMANENT_REDIRECT",
+            "400 BAD_REQUEST",
+            "401 UNAUTHORIZED",
+            "402 PAYMENT_REQUIRED",
+            "403 FORBIDDEN",
+            "404 NOT_FOUND",
+            "405 METHOD_NOT_ALLOWED",
+            "406 NOT_ACCEPTABLE",
+            "407 PROXY_AUTHENTICATION_REQUIRED",
+            "408 REQUEST_TIMEOUT",
+            "409 CONFLICT",
+            "410 GONE",
+            "411 LENGTH_REQUIRED",
+            "412 PRECONDITION_FAILED",
+            "413 PAYLOAD_TOO_LARGE",
+            "413 REQUEST_ENTITY_TOO_LARGE",
+            "414 URI_TOO_LONG",
+            "414 REQUEST_URI_TOO_LONG",
+            "415 UNSUPPORTED_MEDIA_TYPE",
+            "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+            "417 EXPECTATION_FAILED",
+            "418 I_AM_A_TEAPOT",
+            "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+            "420 METHOD_FAILURE",
+            "421 DESTINATION_LOCKED",
+            "422 UNPROCESSABLE_ENTITY",
+            "423 LOCKED",
+            "424 FAILED_DEPENDENCY",
+            "425 TOO_EARLY",
+            "426 UPGRADE_REQUIRED",
+            "428 PRECONDITION_REQUIRED",
+            "429 TOO_MANY_REQUESTS",
+            "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+            "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+            "500 INTERNAL_SERVER_ERROR",
+            "501 NOT_IMPLEMENTED",
+            "502 BAD_GATEWAY",
+            "503 SERVICE_UNAVAILABLE",
+            "504 GATEWAY_TIMEOUT",
+            "505 HTTP_VERSION_NOT_SUPPORTED",
+            "506 VARIANT_ALSO_NEGOTIATES",
+            "507 INSUFFICIENT_STORAGE",
+            "508 LOOP_DETECTED",
+            "509 BANDWIDTH_LIMIT_EXCEEDED",
+            "510 NOT_EXTENDED",
+            "511 NETWORK_AUTHENTICATION_REQUIRED"
+          ]
+        },
+        "view":{
+          "$ref":"#/definitions/View"
+        },
+        "viewName":{
+          "type":"string"
+        }
+      },
+      "title":"ModelAndView"
+    },
+    "ResponseEntity":{
+      "type":"object",
+      "properties":{
+        "body":{
+          "type":"object"
+        },
+        "statusCode":{
+          "type":"string",
+          "enum":[
+            "100 CONTINUE",
+            "101 SWITCHING_PROTOCOLS",
+            "102 PROCESSING",
+            "103 CHECKPOINT",
+            "200 OK",
+            "201 CREATED",
+            "202 ACCEPTED",
+            "203 NON_AUTHORITATIVE_INFORMATION",
+            "204 NO_CONTENT",
+            "205 RESET_CONTENT",
+            "206 PARTIAL_CONTENT",
+            "207 MULTI_STATUS",
+            "208 ALREADY_REPORTED",
+            "226 IM_USED",
+            "300 MULTIPLE_CHOICES",
+            "301 MOVED_PERMANENTLY",
+            "302 FOUND",
+            "302 MOVED_TEMPORARILY",
+            "303 SEE_OTHER",
+            "304 NOT_MODIFIED",
+            "305 USE_PROXY",
+            "307 TEMPORARY_REDIRECT",
+            "308 PERMANENT_REDIRECT",
+            "400 BAD_REQUEST",
+            "401 UNAUTHORIZED",
+            "402 PAYMENT_REQUIRED",
+            "403 FORBIDDEN",
+            "404 NOT_FOUND",
+            "405 METHOD_NOT_ALLOWED",
+            "406 NOT_ACCEPTABLE",
+            "407 PROXY_AUTHENTICATION_REQUIRED",
+            "408 REQUEST_TIMEOUT",
+            "409 CONFLICT",
+            "410 GONE",
+            "411 LENGTH_REQUIRED",
+            "412 PRECONDITION_FAILED",
+            "413 PAYLOAD_TOO_LARGE",
+            "413 REQUEST_ENTITY_TOO_LARGE",
+            "414 URI_TOO_LONG",
+            "414 REQUEST_URI_TOO_LONG",
+            "415 UNSUPPORTED_MEDIA_TYPE",
+            "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+            "417 EXPECTATION_FAILED",
+            "418 I_AM_A_TEAPOT",
+            "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+            "420 METHOD_FAILURE",
+            "421 DESTINATION_LOCKED",
+            "422 UNPROCESSABLE_ENTITY",
+            "423 LOCKED",
+            "424 FAILED_DEPENDENCY",
+            "425 TOO_EARLY",
+            "426 UPGRADE_REQUIRED",
+            "428 PRECONDITION_REQUIRED",
+            "429 TOO_MANY_REQUESTS",
+            "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+            "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+            "500 INTERNAL_SERVER_ERROR",
+            "501 NOT_IMPLEMENTED",
+            "502 BAD_GATEWAY",
+            "503 SERVICE_UNAVAILABLE",
+            "504 GATEWAY_TIMEOUT",
+            "505 HTTP_VERSION_NOT_SUPPORTED",
+            "506 VARIANT_ALSO_NEGOTIATES",
+            "507 INSUFFICIENT_STORAGE",
+            "508 LOOP_DETECTED",
+            "509 BANDWIDTH_LIMIT_EXCEEDED",
+            "510 NOT_EXTENDED",
+            "511 NETWORK_AUTHENTICATION_REQUIRED"
+          ]
+        },
+        "statusCodeValue":{
+          "type":"integer",
+          "format":"int32"
+        }
+      },
+      "title":"ResponseEntity"
+    },
+    "View":{
+      "type":"object",
+      "properties":{
+        "contentType":{
+          "type":"string"
+        }
+      },
+      "title":"View"
+    }
+  }
+}
