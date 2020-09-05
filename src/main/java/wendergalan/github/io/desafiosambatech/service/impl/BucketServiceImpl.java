@@ -38,9 +38,8 @@ public class BucketServiceImpl implements BucketService {
      * @throws Exception
      */
     @Override
-    public String uploadFile(File file) throws Exception {
+    public String uploadFile(File file, String fileName) throws Exception {
         try {
-            String fileName = generateFileName(file);
             s3Client.putObject(new PutObjectRequest(bucketName, fileName, file));
             return endpointUrl + "/" + bucketName + "/" + fileName;
         } catch (AmazonServiceException ase) {
@@ -56,6 +55,10 @@ public class BucketServiceImpl implements BucketService {
             log.info("Error Message: " + ace.getMessage());
             throw new Exception(message.getMessage("aws.upload.file.error"));
         }
+    }
+
+    public String uploadFile(File file) throws Exception {
+        return uploadFile(file, generateFileName(file));
     }
 
     /**

@@ -35,7 +35,22 @@ public class Media implements Serializable {
     private String url;
 
     @Column(name = "duracao")
-    private Integer duracao;
+    private Long duracao;
+
+    @Column(name = "file_size")
+    private Long fileSize;
+
+    @Column(name = "bit_rate")
+    private Long bitRate;
+
+    @Column(name = "width")
+    private Integer width;
+
+    @Column(name = "height")
+    private Integer height;
+
+    @Column(name = "frame_rate")
+    private Double frameRate;
 
     @Column(name = "data_upload", nullable = false)
     @NotNull
@@ -44,4 +59,14 @@ public class Media implements Serializable {
     @Column(name = "deleted", nullable = false)
     @NotNull
     private boolean deleted;
+
+    public void update(Media media) {
+        this.url = media.getUrl();
+        this.duracao = media.getDuracao();
+        this.fileSize = media.getFileSize();
+        this.bitRate = media.getBitRate();
+        this.width = media.getWidth();
+        this.height = media.getHeight();
+        this.frameRate = media.getFrameRate();
+    }
 }

@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.server.ResponseStatusException;
 import wendergalan.github.io.desafiosambatech.config.model.beans.ResponseError;
 import wendergalan.github.io.desafiosambatech.service.MessageByLocaleService;
 
@@ -26,5 +27,14 @@ public class GlobalExceptionConfiguration {
         // Do Anything with webRequest
         log.error(ex.getMessage(), ex);
         return ResponseEntity.badRequest().body(new ResponseError(message.getMessage("api.generic.error")));
+    }
+
+    /**
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity handleResponseStatusException(ResponseStatusException ex) {
+        return new ResponseEntity(ex.getStatus());
     }
 }
