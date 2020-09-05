@@ -27,7 +27,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("desafio-sambatech").password("{noop}123456admin").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").roles("ADMIN");
     }
 
     @Override
