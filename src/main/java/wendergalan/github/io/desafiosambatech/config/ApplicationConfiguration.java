@@ -80,7 +80,7 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("classpath:locale/messages");
+        messageSource.setBasename("classpath:locale/Messages");
         messageSource.setCacheSeconds(3600); //refresh cache once per hour
         return messageSource;
     }
