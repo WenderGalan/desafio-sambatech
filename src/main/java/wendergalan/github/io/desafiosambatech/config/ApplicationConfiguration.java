@@ -1,18 +1,51 @@
 package wendergalan.github.io.desafiosambatech.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import wendergalan.github.io.desafiosambatech.config.converter.deserializer.LocalDateDeserializer;
+import wendergalan.github.io.desafiosambatech.config.converter.serializer.LocalDateSerializer;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
+
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static com.fasterxml.jackson.databind.SerializationFeature.FAIL_ON_EMPTY_BEANS;
 
 @EnableWebMvc
 @Configuration
 public class ApplicationConfiguration implements WebMvcConfigurer {
+
+    /**
+     * Adiciona os conversores de JSON a aplicação.
+     *
+     * @param converters
+     */
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+        javaTimeModule.addSerializer(LocalDate.class, new LocalDateSerializer());
+        javaTimeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer());
+
+        builder.modules(javaTimeModule);
+
+        ObjectMapper mapper = builder.build();
+        mapper.disable(FAIL_ON_EMPTY_BEANS);
+        mapper.disable(FAIL_ON_UNKNOWN_PROPERTIES);
+        converters.add(new MappingJackson2HttpMessageConverter(mapper));
+    }
 
     @Bean
     public LocaleResolver localeResolver() {
