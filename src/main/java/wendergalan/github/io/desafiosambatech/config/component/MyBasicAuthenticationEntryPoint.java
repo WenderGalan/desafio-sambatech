@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import static wendergalan.github.io.desafiosambatech.config.WebSecurityConfiguration.REALM;
+import static wendergalan.github.io.desafiosambatech.config.security.WebSecurityConfiguration.REALM;
 
 @Component
 public class MyBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {

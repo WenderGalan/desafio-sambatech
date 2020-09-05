@@ -1,4 +1,4 @@
-package wendergalan.github.io.desafiosambatech.config;
+package wendergalan.github.io.desafiosambatech.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
