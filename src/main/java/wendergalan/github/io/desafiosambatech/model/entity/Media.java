@@ -35,7 +35,22 @@ public class Media implements Serializable {
     private String url;
 
     @Column(name = "duracao")
-    private Integer duracao;
+    private Long duracao;
+
+    @Column(name = "file_size")
+    private Long fileSize;
+
+    @Column(name = "bit_rate")
+    private Long bitRate;
+
+    @Column(name = "width")
+    private Integer width;
+
+    @Column(name = "height")
+    private Integer height;
+
+    @Column(name = "frame_rate")
+    private Double frameRate;
 
     @Column(name = "data_upload", nullable = false)
     @NotNull
