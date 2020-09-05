@@ -9,9 +9,9 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import wendergalan.github.io.desafiosambatech.config.converter.deserializer.LocalDateDeserializer;
 import wendergalan.github.io.desafiosambatech.config.converter.serializer.LocalDateSerializer;
 
@@ -45,6 +45,29 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
         mapper.disable(FAIL_ON_EMPTY_BEANS);
         mapper.disable(FAIL_ON_UNKNOWN_PROPERTIES);
         converters.add(new MappingJackson2HttpMessageConverter(mapper));
+    }
+
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        registry.viewResolver(new InternalResourceViewResolver());
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Swagger configuration
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowCredentials(true)
+                .allowedOrigins("*")
+                .allowedHeaders("*")
+                .allowedMethods("*");
     }
 
     @Bean
