@@ -59,4 +59,14 @@ public class Media implements Serializable {
     @Column(name = "deleted", nullable = false)
     @NotNull
     private boolean deleted;
+
+    public void update(Media media) {
+        this.url = media.getUrl();
+        this.duracao = media.getDuracao();
+        this.fileSize = media.getFileSize();
+        this.bitRate = media.getBitRate();
+        this.width = media.getWidth();
+        this.height = media.getHeight();
+        this.frameRate = media.getFrameRate();
+    }
 }
