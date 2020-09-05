@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "8dec6387-da4a-4d88-908f-d02a3afb6f2c",
+		"name": "Desafio Samba Tech",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Buscar Mídias",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVIDOR}}/medias?allMedias=false&pageNumber=1&pageSize=5",
+					"host": [
+						"{{SERVIDOR}}"
+					],
+					"path": [
+						"medias"
+					],
+					"query": [
+						{
+							"key": "allMedias",
+							"value": "false"
+						},
+						{
+							"key": "pageNumber",
+							"value": "1"
+						},
+						{
+							"key": "pageSize",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Open-API Swagger",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVIDOR}}/v2/api-docs?group=DESAFIO SAMBA TECH",
+					"host": [
+						"{{SERVIDOR}}"
+					],
+					"path": [
+						"v2",
+						"api-docs"
+					],
+					"query": [
+						{
+							"key": "group",
+							"value": "DESAFIO SAMBA TECH"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Mídias Por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{SERVIDOR}}/medias/{id}",
+					"host": [
+						"{{SERVIDOR}}"
+					],
+					"path": [
+						"medias",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Mídia Por ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{SERVIDOR}}/medias/{id}",
+					"host": [
+						"{{SERVIDOR}}"
+					],
+					"path": [
+						"medias",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Salvar Mídia",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/file.mkv"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{SERVIDOR}}/medias",
+					"host": [
+						"{{SERVIDOR}}"
+					],
+					"path": [
+						"medias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar Mídia",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/wende/Videos/file_Trim.mp4"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{SERVIDOR}}/medias/{id}",
+					"host": [
+						"{{SERVIDOR}}"
+					],
+					"path": [
+						"medias",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "admin",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "aa3831d2-3bc1-47d5-bc4a-516316fe9cf8",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4b05bfe9-9dc2-45cb-aefe-e3ab00caff0e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "46fa5c49-1958-4804-a4d8-0155810da84a",
+			"key": "SERVIDOR",
+			"value": "http://localhost:8080"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

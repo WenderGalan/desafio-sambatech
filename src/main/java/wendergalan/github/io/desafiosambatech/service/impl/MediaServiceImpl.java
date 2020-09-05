@@ -38,7 +38,7 @@ public class MediaServiceImpl implements MediaService {
         media.setDataUpload(Instant.now().atOffset(ZoneOffset.UTC).toLocalDate());
         mediaRepository.save(media);
         // Deleta o arquivo temporário criado
-        file.delete();
+        file.deleteOnExit();
         return media;
     }
 
@@ -67,7 +67,7 @@ public class MediaServiceImpl implements MediaService {
         // Atualiza os atributos da media
         media.update(newMedia);
         mediaRepository.save(media);
-        file.delete();
+        file.deleteOnExit();
         return media;
     }
 
