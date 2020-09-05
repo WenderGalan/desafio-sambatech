@@ -111,6 +111,12 @@
             <artifactId>xuggle-xuggler</artifactId>
             <version>5.4</version>
         </dependency>
+        <!-- H2 DATABASE -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <repositories>
