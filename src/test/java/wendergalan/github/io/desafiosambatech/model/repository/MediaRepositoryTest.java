@@ -92,7 +92,7 @@ public class MediaRepositoryTest {
         assertThat(result.getTotalElements()).isEqualTo(0);
     }
 
-    private Media criarNovaMedia() {
+    public static Media criarNovaMedia() {
         return Media.builder()
                 .nome("video.mp4")
                 .duracao(3546456L)
