@@ -14,13 +14,17 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import wendergalan.github.io.desafiosambatech.model.entity.Media;
 import wendergalan.github.io.desafiosambatech.model.repository.MediaRepository;
 import wendergalan.github.io.desafiosambatech.service.MediaService;
@@ -172,4 +176,65 @@ public class MediaControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    @DisplayName("Atualiza um mídia.")
+    public void updateMediaTest() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "video.txt", MediaType.APPLICATION_OCTET_STREAM_VALUE, "File".getBytes());
+
+        Media media = criarNovaMedia();
+        media.setId(1);
+
+        BDDMockito.given(mediaService.getById(Mockito.any())).willReturn(Optional.of(media));
+
+        MockMultipartHttpServletRequestBuilder request = MockMvcRequestBuilders.fileUpload(MEDIA_API + "/" + media.getId()).file(file);
+        request.with(new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                request.setMethod(HttpMethod.PUT.toString());
+                return request;
+            }
+        });
+
+        mvc
+                .perform(request)
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Da erro ao tentar atualizar uma mídia inexistente.")
+    public void updateMediaExceptionTest() throws Exception {
+        MockMultipartFile file = new MockMultipartFile("file", "video.txt", MediaType.APPLICATION_OCTET_STREAM_VALUE, "File".getBytes());
+
+        Media media = criarNovaMedia();
+        media.setId(1);
+
+        BDDMockito.given(mediaService.getById(anyInt())).willReturn(Optional.empty());
+
+        MockMultipartHttpServletRequestBuilder request = MockMvcRequestBuilders.fileUpload(MEDIA_API + "/" + media.getId()).file(file);
+        request.with(new RequestPostProcessor() {
+            @Override
+            public MockHttpServletRequest postProcessRequest(MockHttpServletRequest request) {
+                request.setMethod(HttpMethod.PUT.toString());
+                return request;
+            }
+        });
+
+        mvc
+                .perform(request)
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Da erro ao tentar deletar uma mídia inexistente.")
+    public void deleteExceptionTest() throws Exception {
+        BDDMockito.given(mediaService.getById(anyInt())).willReturn(Optional.empty());
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .delete(MEDIA_API.concat("/" + 11))
+                .accept(MediaType.APPLICATION_JSON);
+
+        mvc
+                .perform(request)
+                .andExpect(status().isNotFound());
+    }
 }
