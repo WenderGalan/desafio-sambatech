@@ -10,7 +10,7 @@
     - A [coleção do postman](https://github.com/WenderGalan/desafio-sambatech/blob/master/postman_collection.json) está disponível na raiz do projeto. Apenas importe para o Postman.
     - A ACCESS_KEY_ID e SECRET_ACCESS_KEY foi enviada junto ao link do repositório aos recrutadores. Não pode ser colocada no código devido a segurança da AWS.
     - O limite de tamanho de arquivos que podem ser enviados foi limitado a 100 MB na aplicação.
-    - O deploy deixei de forma automática no heroku, caso os testes falhem não irá fazer o deploy, devido minha conta na AWS já ter expirado o tempo gratuito não consegui fazer o deploy da aplicação lá.
+    - O deploy deixei de forma automática no heroku, caso os testes falhem não irá fazer o deploy.
     
 - Observação:
     - Fiquei com algumas dúvidas referente ao que a API deveria receber como parâmetro e body nos controllers e fiz da forma que imaginei que seria tratado a informação. Devido ser final de semana acabei não mandando e-mail para tirar as dúvidas.
