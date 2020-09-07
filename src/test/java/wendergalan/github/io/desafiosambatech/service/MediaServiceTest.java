@@ -42,8 +42,8 @@ public class MediaServiceTest {
 
     @BeforeEach
     public void setUp() {
-        this.mediaService = new MediaServiceImpl(null, repository, message);
         this.message = new MessageByLocaleServiceImpl(messageSource);
+        this.mediaService = new MediaServiceImpl(null, repository, message);
     }
 
     @Test

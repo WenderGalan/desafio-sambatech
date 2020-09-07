@@ -138,6 +138,14 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.4</version>
+                <configuration>
+                    <!-- REMOVE AS CLASSES DE ENTIDADE E CONFIG DO COVERAGE -->
+                    <excludes>
+                        <exclude>**/model/entity/**</exclude>
+                        <exclude>**/model/beans/**</exclude>
+                        <exclude>**/config/documentation/**</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
