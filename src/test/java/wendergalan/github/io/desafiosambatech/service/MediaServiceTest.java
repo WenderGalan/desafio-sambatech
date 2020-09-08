@@ -6,25 +6,30 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.MessageSource;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import wendergalan.github.io.desafiosambatech.model.entity.Media;
 import wendergalan.github.io.desafiosambatech.model.repository.MediaRepository;
 import wendergalan.github.io.desafiosambatech.service.impl.MediaServiceImpl;
 import wendergalan.github.io.desafiosambatech.service.impl.MessageByLocaleServiceImpl;
+import wendergalan.github.io.desafiosambatech.utility.Utility;
 
+import java.io.File;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static wendergalan.github.io.desafiosambatech.model.repository.MediaRepositoryTest.criarNovaMedia;
 
@@ -35,7 +40,13 @@ public class MediaServiceTest {
     MediaService mediaService;
 
     @MockBean
+    BucketService bucketService;
+
+    @MockBean
     MediaRepository repository;
+
+    @MockBean
+    Utility utility;
 
     @MockBean
     MessageSource messageSource;
@@ -43,7 +54,7 @@ public class MediaServiceTest {
     @BeforeEach
     public void setUp() {
         this.message = new MessageByLocaleServiceImpl(messageSource);
-        this.mediaService = new MediaServiceImpl(null, repository, message);
+        this.mediaService = new MediaServiceImpl(bucketService, repository, message, utility);
     }
 
     @Test
@@ -121,5 +132,56 @@ public class MediaServiceTest {
         assertThat(result.getContent()).isEqualTo(lista);
         assertThat(result.getPageable().getPageNumber()).isEqualTo(0);
         assertThat(result.getPageable().getPageSize()).isEqualTo(10);
+    }
+
+    @Test
+    @DisplayName("Deve salvar uma mídia.")
+    public void saveMediaTest() throws Exception {
+        MockMultipartFile multipartFile = new MockMultipartFile("file", "video.mp4", MediaType.APPLICATION_OCTET_STREAM_VALUE, "File".getBytes());
+
+        Media media = criarNovaMedia();
+        given(utility.recuperarMediaDoVideo(anyString())).willReturn(media);
+        given(utility.convertMultiPartToFile(any())).willReturn(new File("video.mp4"));
+        given(utility.generateFileName(any())).willReturn("video.mp4");
+        given(bucketService.uploadFile(any(), anyString())).willReturn("http://url/video.mp4");
+        given(repository.save(media))
+                .willReturn(
+                        Media.builder()
+                                .id(1)
+                                .dataUpload(LocalDate.now())
+                                .build());
+
+        Media saveMedia = mediaService.save(multipartFile);
+
+        assertThat(saveMedia.getId()).isNotNull();
+        assertThat(saveMedia.getDataUpload()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Deve atualizar uma mídia.")
+    public void updateMediaTest() throws Exception {
+        MockMultipartFile multipartFile = new MockMultipartFile("file", "video.mp4", MediaType.APPLICATION_OCTET_STREAM_VALUE, "File".getBytes());
+
+        Media media = criarNovaMedia();
+        media.setUrl("https://url/video.mp4");
+        media.setId(1);
+
+        given(utility.recuperarMediaDoVideo(anyString())).willReturn(media);
+        given(utility.convertMultiPartToFile(any())).willReturn(new File("video.mp4"));
+        given(utility.generateFileName(any())).willReturn("video.mp4");
+        given(bucketService.uploadFile(any(), anyString())).willReturn("http://url/video.mp4");
+        given(repository.save(media))
+                .willReturn(
+                        Media.builder()
+                                .id(1)
+                                .url("https://url/video.mp4")
+                                .dataUpload(LocalDate.now())
+                                .build());
+
+        Media updateMedia = mediaService.update(media, multipartFile);
+
+        assertThat(updateMedia.getId()).isEqualTo(media.getId());
+        assertThat(updateMedia.getDataUpload()).isEqualTo(media.getDataUpload());
+        assertThat(updateMedia.getUrl()).isEqualTo(media.getUrl());
     }
 }

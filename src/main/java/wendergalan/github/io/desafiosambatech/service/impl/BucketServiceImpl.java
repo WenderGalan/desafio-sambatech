@@ -11,10 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import wendergalan.github.io.desafiosambatech.service.BucketService;
 import wendergalan.github.io.desafiosambatech.service.MessageByLocaleService;
+import wendergalan.github.io.desafiosambatech.utility.Utility;
 
 import java.io.File;
-
-import static wendergalan.github.io.desafiosambatech.utility.Utility.generateFileName;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +22,7 @@ public class BucketServiceImpl implements BucketService {
 
     private final AmazonS3 s3Client;
     private final MessageByLocaleService message;
+    private final Utility utility;
 
     @Value("${s3.bucket}")
     private String bucketName;
@@ -58,7 +58,7 @@ public class BucketServiceImpl implements BucketService {
     }
 
     public String uploadFile(File file) throws Exception {
-        return uploadFile(file, generateFileName(file));
+        return uploadFile(file, utility.generateFileName(file));
     }
 
     /**

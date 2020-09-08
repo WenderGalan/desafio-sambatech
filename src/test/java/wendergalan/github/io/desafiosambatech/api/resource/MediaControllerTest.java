@@ -177,7 +177,7 @@ public class MediaControllerTest {
     }
 
     @Test
-    @DisplayName("Atualiza um mídia.")
+    @DisplayName("Deve atualizar uma mídia.")
     public void updateMediaTest() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "video.txt", MediaType.APPLICATION_OCTET_STREAM_VALUE, "File".getBytes());
 
@@ -201,7 +201,7 @@ public class MediaControllerTest {
     }
 
     @Test
-    @DisplayName("Da erro ao tentar atualizar uma mídia inexistente.")
+    @DisplayName("Deve dar erro ao tentar atualizar uma mídia inexistente.")
     public void updateMediaExceptionTest() throws Exception {
         MockMultipartFile file = new MockMultipartFile("file", "video.txt", MediaType.APPLICATION_OCTET_STREAM_VALUE, "File".getBytes());
 
@@ -225,7 +225,7 @@ public class MediaControllerTest {
     }
 
     @Test
-    @DisplayName("Da erro ao tentar deletar uma mídia inexistente.")
+    @DisplayName("Deve dar erro ao tentar deletar uma mídia inexistente.")
     public void deleteExceptionTest() throws Exception {
         BDDMockito.given(mediaService.getById(anyInt())).willReturn(Optional.empty());
 

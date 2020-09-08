@@ -10,14 +10,12 @@ import wendergalan.github.io.desafiosambatech.model.repository.MediaRepository;
 import wendergalan.github.io.desafiosambatech.service.BucketService;
 import wendergalan.github.io.desafiosambatech.service.MediaService;
 import wendergalan.github.io.desafiosambatech.service.MessageByLocaleService;
+import wendergalan.github.io.desafiosambatech.utility.Utility;
 
 import java.io.File;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.Optional;
-
-import static wendergalan.github.io.desafiosambatech.utility.Utility.convertMultiPartToFile;
-import static wendergalan.github.io.desafiosambatech.utility.VideoUtility.recuperarMediaDoVideo;
 
 @Service
 @RequiredArgsConstructor
@@ -26,17 +24,18 @@ public class MediaServiceImpl implements MediaService {
     private final BucketService bucketService;
     private final MediaRepository mediaRepository;
     private final MessageByLocaleService message;
+    private final Utility utility;
 
     @Override
     public Media save(MultipartFile multipartFile) throws Exception {
-        File file = convertMultiPartToFile(multipartFile);
-        Media media = recuperarMediaDoVideo(file.getAbsolutePath());
+        File file = utility.convertMultiPartToFile(multipartFile);
+        Media media = utility.recuperarMediaDoVideo(file.getAbsolutePath());
         String urlAWS = bucketService.uploadFile(file);
         media.setUrl(urlAWS);
         media.setNome(multipartFile.getOriginalFilename());
         // Recuperar a data no UTC 0
         media.setDataUpload(Instant.now().atOffset(ZoneOffset.UTC).toLocalDate());
-        mediaRepository.save(media);
+        media = mediaRepository.save(media);
         // Deleta o arquivo temporário criado
         file.deleteOnExit();
         return media;
@@ -58,8 +57,8 @@ public class MediaServiceImpl implements MediaService {
     @Override
     public Media update(Media media, MultipartFile multipartFile) throws Exception {
         // Converte o multipart
-        File file = convertMultiPartToFile(multipartFile);
-        Media newMedia = recuperarMediaDoVideo(file.getAbsolutePath());
+        File file = utility.convertMultiPartToFile(multipartFile);
+        Media newMedia = utility.recuperarMediaDoVideo(file.getAbsolutePath());
         // Manda o nome do proprio arquivo para atualizar
         String urlAWS = bucketService.uploadFile(file, media.getUrl().substring(media.getUrl().lastIndexOf("/") + 1));
         newMedia.setUrl(urlAWS);
